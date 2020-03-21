@@ -23,6 +23,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D4842117242653A700871FDA /* TryItOut.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = TryItOut.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D4CB8DBD24264ACE0056EA06 /* Charon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Charon; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CB8DC024264ACE0056EA06 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,6 +58,7 @@
 		D4CB8DBF24264ACE0056EA06 /* Charon */ = {
 			isa = PBXGroup;
 			children = (
+				D4842117242653A700871FDA /* TryItOut.playground */,
 				D4CB8DC024264ACE0056EA06 /* main.swift */,
 			);
 			path = Charon;
