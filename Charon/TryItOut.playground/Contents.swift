@@ -4,11 +4,12 @@ let home = FileManager.default.homeDirectoryForCurrentUser
 
 let playgroundPath = "Documents/Work/Freeletics/fl-application-ios"
 let playgroundUrl = home.appendingPathComponent(playgroundPath)
+
 enum swiftType: String {
     case classType = "class", structType = "struct", enumType = "enum"
 }
 
-func test(url: URL) {
+func testSwift(url: URL) {
     do {
         let file = try String(contentsOf: url, encoding: .utf8)
         let strings = file.components(separatedBy: .whitespacesAndNewlines)
@@ -23,33 +24,24 @@ func test(url: URL) {
     } catch {
         print(error)
     }
+    print()
 }
 
 let fileManager = FileManager.default
 
-do {
-    let resourceKeys : [URLResourceKey] = [.creationDateKey, .isDirectoryKey]
+let resourceKeys : [URLResourceKey] = [.creationDateKey, .isDirectoryKey]
 //    let documentsURL = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-    let enumerator = FileManager.default.enumerator(at: playgroundUrl,
-                            includingPropertiesForKeys: resourceKeys,
-                                               options: [.skipsHiddenFiles], errorHandler: { (url, error) -> Bool in
-                                                        print("directoryEnumerator error at \(url): ", error)
-                                                        return true
-    })!
+let enumerator = FileManager.default.enumerator(at: playgroundUrl,
+                                                includingPropertiesForKeys: resourceKeys,
+                                                options: [.skipsHiddenFiles], errorHandler: { (url, error) -> Bool in
+                                                    print("directoryEnumerator error at \(url): ", error)
+                                                    return true
+})!
 
-    for case let fileURL as URL in enumerator {
-        guard ["swift", "h", "m"].contains(fileURL.pathExtension) else {
-            continue
-        }
-        let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
-        print(fileURL.path, resourceValues.creationDate!, resourceValues.isDirectory!)
-        test(url: fileURL)
+for case let fileURL as URL in enumerator {
+    // add Test for "h", "m"
+    if ["swift"].contains(fileURL.pathExtension) {
+        print(fileURL.path)
+        testSwift(url: fileURL)
     }
-} catch {
-    print(error)
-
 }
-
-//let exampleFile = "/Users/rob/Documents/Work/Freeletics/fl-application-ios/Freeletics/Spaces/TrainingSpots/TrainingSpotDetailViewController.swift"
-//
-//test(url: URL(fileURLWithPath: exampleFile))
