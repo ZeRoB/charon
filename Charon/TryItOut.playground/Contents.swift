@@ -5,26 +5,30 @@ let home = FileManager.default.homeDirectoryForCurrentUser
 let playgroundPath = "Documents/Work/Freeletics/fl-application-ios"
 let playgroundUrl = home.appendingPathComponent(playgroundPath)
 
-enum swiftType: String {
-    case classType = "class", structType = "struct", enumType = "enum"
+enum SwiftType: String {
+    case classType = "class", structType = "struct", enumType = "enum", protocolType = "protocol"
 }
 
-func testSwift(url: URL) {
+func mainTypes(inFile url: URL) -> [(SwiftType, String)]? {
     do {
         let file = try String(contentsOf: url, encoding: .utf8)
         let strings = file.components(separatedBy: .whitespacesAndNewlines)
-        var array = [(String, String)]()
+        var mainTypes = [(SwiftType, String)]()
         for (index, string) in strings.enumerated() {
-            if let swiftType = swiftType(rawValue: String(string)) {
-                array.append((swiftType.rawValue, String(strings[index + 1 ])))
+            if let swiftType = SwiftType(rawValue: String(string)),
+                let firstCharacter = strings[index + 1].first,
+                firstCharacter.isUppercase {
+                mainTypes.append((swiftType, String(strings[index + 1 ])))
             }
         }
-        print("------")
-        print(array)
+        //        print("------")
+        //        print(array)
+        return mainTypes
     } catch {
         print(error)
+        return nil
     }
-    print()
+    //    print()
 }
 
 let fileManager = FileManager.default
@@ -38,10 +42,19 @@ let enumerator = FileManager.default.enumerator(at: playgroundUrl,
                                                     return true
 })!
 
+var types = [String]()
+
 for case let fileURL as URL in enumerator {
     // add Test for "h", "m"
     if ["swift"].contains(fileURL.pathExtension) {
-        print(fileURL.path)
-        testSwift(url: fileURL)
+        if let mainTypes = mainTypes(inFile: fileURL), !mainTypes.isEmpty {
+            types.append(contentsOf: mainTypes.map({ $0.1 }))
+            print(fileURL.path)
+            print(mainTypes)
+            print()
+        }
     }
 }
+
+print(types)
+print(types.count)
